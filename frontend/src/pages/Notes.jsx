@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
 import { useAuth } from '../components/AuthContext';
@@ -8,6 +8,7 @@ import { useToast } from '../components/useToast';
 import './Notes.css';
 
 const SECRET_COMBO_KEY = '`'; // backtick opens secret entrance
+const SECRET_TAP_COUNT = 5;   // taps needed on hidden zone
 
 export default function Notes() {
   const [notes, setNotes] = useState([]);
@@ -17,6 +18,8 @@ export default function Notes() {
   const { logout, user } = useAuth();
   const { toast, showToast } = useToast();
   const navigate = useNavigate();
+  const tapCount = useRef(0);
+  const tapTimer = useRef(null);
 
   const loadNotes = useCallback(async () => {
     const data = await api.getNotes();
@@ -25,7 +28,7 @@ export default function Notes() {
 
   useEffect(() => { loadNotes(); }, [loadNotes]);
 
-  // Secret entry: press backtick 3 times quickly
+  // Secret entry — desktop: backtick x3
   useEffect(() => {
     let count = 0;
     let timer;
@@ -43,6 +46,17 @@ export default function Notes() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [navigate]);
+
+  // Secret entry — mobile: tap hidden corner zone 5 times
+  function handleSecretTap() {
+    tapCount.current += 1;
+    clearTimeout(tapTimer.current);
+    tapTimer.current = setTimeout(() => { tapCount.current = 0; }, 1500);
+    if (tapCount.current >= SECRET_TAP_COUNT) {
+      tapCount.current = 0;
+      navigate('/secret');
+    }
+  }
 
   async function handleCreate() {
     const note = await api.createNote({ content: '', title: null, pinned: false });
@@ -135,6 +149,9 @@ export default function Notes() {
           onClose={handleClose}
         />
       )}
+
+      {/* Hidden corner tap zone for mobile secret access — tap 5x */}
+      <div className="secret-tap-zone" onPointerDown={handleSecretTap} />
 
       {toast && <div className="toast">{toast}</div>}
     </div>

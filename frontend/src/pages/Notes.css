@@ -97,3 +97,16 @@
 .empty-state p {
   font-size: 15px;
 }
+
+/* Hidden tap zone — bottom-right corner, invisible */
+.secret-tap-zone {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 48px;
+  height: 48px;
+  z-index: 999;
+  background: transparent;
+  -webkit-tap-highlight-color: transparent;
+  cursor: default;
+}

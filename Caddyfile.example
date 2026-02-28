@@ -1,0 +1,17 @@
+# Global Caddyfile for multi-project VPS
+# Place at: /etc/caddy/Caddyfile
+
+# Notes API
+api.notes.yourdomain.com {
+    reverse_proxy notes-api:3001
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+    }
+}
+
+# Add more projects below:
+# api.other.yourdomain.com {
+#     reverse_proxy other-api:3002
+# }

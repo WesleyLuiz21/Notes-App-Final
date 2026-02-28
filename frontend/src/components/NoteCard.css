@@ -1,0 +1,95 @@
+.note-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s;
+  position: relative;
+}
+
+.note-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.note-card.pinned {
+  border-color: rgba(124, 111, 205, 0.4);
+  background: rgba(124, 111, 205, 0.05);
+}
+
+.note-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.pin-badge {
+  font-size: 12px;
+}
+
+.note-time {
+  font-size: 12px;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.note-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.note-card:hover .note-actions {
+  opacity: 1;
+}
+
+.icon-btn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-size: 12px;
+  transition: background 0.15s, color 0.15s;
+  border: none;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+.icon-btn.danger:hover {
+  background: rgba(224, 92, 92, 0.15);
+  color: var(--danger);
+}
+
+.note-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note-snippet {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.empty {
+  font-style: italic;
+}

@@ -1,0 +1,93 @@
+.editor-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.editor-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.editor-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-title-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.editor-title-input::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.editor-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.secret-badge {
+  font-size: 12px;
+  color: var(--accent);
+  background: rgba(124, 111, 205, 0.15);
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+
+.save-indicator {
+  font-size: 12px;
+  color: var(--text-muted);
+  min-width: 70px;
+}
+
+.save-indicator.saved {
+  color: var(--success);
+}
+
+.editor-copy-btn {
+  font-size: 13px;
+  padding: 5px 10px;
+}
+
+.editor-content {
+  flex: 1;
+  padding: 20px;
+  background: none;
+  border: none;
+  outline: none;
+  resize: none;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.7;
+  min-height: 300px;
+}
+
+.editor-content::placeholder {
+  color: var(--text-muted);
+}

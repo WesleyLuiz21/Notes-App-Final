@@ -5,20 +5,13 @@ services:
     build: ./backend
     container_name: notes-api
     restart: unless-stopped
+    env_file:
+      - ./.env
     environment:
       NODE_ENV: production
       PORT: 3001
-      SESSION_SECRET: ${SESSION_SECRET}
-      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN}
       DB_PATH: /data/app.db
     volumes:
       - /srv/notes/db:/data
-    networks:
-      - caddy_net
-    labels:
-      caddy: "api.notes.${DOMAIN}"
-      caddy.reverse_proxy: "{{upstreams 3001}}"
-
-networks:
-  caddy_net:
-    external: true
+    ports:
+      - "127.0.0.1:3001:3001"

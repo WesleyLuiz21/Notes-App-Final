@@ -10,6 +10,9 @@ import secretRouter from './routes/secret.js';
 import { startCleanupJob } from './jobs/cleanup.js';
 
 const app = express();
+
+// Behind Caddy reverse proxy
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3001;
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -20,9 +23,12 @@ app.use(helmet());
 app.use(cors({
   origin: process.env.FRONTEND_ORIGIN || 'http://localhost:5173',
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type']
+  methods: ['GET', 'POST', 'PUT', 'DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 204
 }));
+
+app.options('*', cors()); // handle preflight
 
 // Sessions
 app.use(session({
@@ -32,7 +38,7 @@ app.use(session({
   cookie: {
     httpOnly: true,
     secure: isProd,
-    sameSite: isProd ? 'strict' : 'lax',
+    sameSite: isProd ? 'lax' : 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
   }
 }));
@@ -65,6 +71,6 @@ app.get('/health', (req, res) => res.json({ ok: true }));
 initDb();
 startCleanupJob();
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`[server] Running on port ${PORT} (${isProd ? 'production' : 'development'})`);
 });

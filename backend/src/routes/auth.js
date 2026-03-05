@@ -98,7 +98,7 @@ router.get('/me', (req, res) => {
 // POST /auth/setup — first-time user creation (only if no users exist)
 router.post('/setup', async (req, res) => {
   try {
-    const existing = db.prepare('SELECT id FROM users LIMIT 1').get();
+    const existing = db.prepare('SELECT id FROM users LIMIT 10').get();
     if (existing) return res.status(403).json({ error: 'Setup already completed' });
 
     const parsed = loginSchema.parse(req.body);
